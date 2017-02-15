@@ -1,0 +1,22 @@
+<div class="box">
+	<div id="box_year">
+		<h1>Watt does it take?</h1>
+		<p>Current: <%=@kwh_year%> KwH / year</p>
+		<p>Configuration</p>
+	</div>
+	<div id="box_goal">
+		<p>Goal</p>
+	</div>
+</div>		
+<div id="workspace">
+	<p>Drag and drop actions here!</p>
+</div>	
+
+<div id="all_cards">
+    <% @cards.each do |c|%>
+    <div class="card">
+       <h2><%= c.name %><h2>     
+    </div>
+    <% end %>
+</div>
+
