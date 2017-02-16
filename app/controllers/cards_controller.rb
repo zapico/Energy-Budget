@@ -1,15 +1,6 @@
 class CardsController < ApplicationController
   before_action :set_card, only: [:show, :edit, :update, :destroy]
   
-  
-  def update_priority
-    @card = Card.find(card_params[:card_id])
-    @card.priority = thing_params[:row_order_position]
-    @card.save
-    render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
-  end
-  
-  
   # GET /cards
   # GET /cards.json
   def index
@@ -58,6 +49,23 @@ class CardsController < ApplicationController
         format.json { render json: @card.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  
+  def activate
+    c = Card.find(params[:id])
+    c.active = true
+    c.save
+    puts("activated")
+    render :nothing => true
+  end
+  
+  def desactivate
+    c = Card.find(params[:id])
+    c.active = false
+    c.save
+    puts("desactivated")
+    render :nothing => true
   end
 
   # DELETE /cards/1

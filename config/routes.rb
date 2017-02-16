@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'workspace#index'
   
-
+  
+  put 'activate/:id' => 'cards#activate'
+  put 'desactivate/:id' => 'cards#desactivate'
+  put 'recalculate' => 'workspace#calculate'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
