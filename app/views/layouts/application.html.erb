@@ -9,21 +9,16 @@
   <%= Gon::Base.render_data({}) %>
   <script>
   $(document).ready(function(){
-	  // Basic logic: if a card is dropped in workspace it becomes active, if dropped back in card pool it desactivates.
 	  $('.card').draggable({ snap: true  });
 	  $('#workspace').droppable({
     	  drop: function(ev, ui) { 
 			  $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
-			  // Activate card
-			  $.ajax({ url: "/activate/"+$(ui.draggable).attr('id'), type: 'PUT' });
 			  // Recalculate amount
-			  $.ajax({ 
-				  url: "/recalculate", 
-				  type: 'PUT' , 
-				  success:function(data) {
-					  $('#cards_amount').html(gon.saved_amount) 
-				  }
-			  });
+			  svd=parseInt($("#cards_amount").html());	      
+			  svd += parseInt($(ui.draggable).find("kwh").html());
+			  $("#cards_amount").html(svd);
+			  prog = svd*100/parseInt($("#goal_amount").html());
+		  	  $( "#progressbar" ).progressbar({value: prog});
 		  }
 	  });
 	  $('#all_cards').droppable({
@@ -32,8 +27,11 @@
 			  // Desactivate card
 			  $.ajax({ url: "/desactivate/"+$(ui.draggable).attr('id'), type: 'PUT' });
 			  // Recalculate amount
-			  $.ajax({ url: "/recalculate", type: 'PUT' });
-			  	  
+			  svd=parseInt($("#cards_amount").html());	      
+			  svd -= parseInt($(ui.draggable).find("kwh").html());
+			  $("#cards_amount").html(svd);
+			  prog = svd*100/parseInt($("#goal_amount").html());
+		  	  $( "#progressbar" ).progressbar({value: prog});  	  
 		  }
 	  });
 	  $( "#slider" ).slider({
